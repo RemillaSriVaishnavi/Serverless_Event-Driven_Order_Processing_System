@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: orders-db
+    environment:
+      POSTGRES_DB: ordersdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./infrastructure/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=lambda,sqs,apigateway,sns
+      - DEBUG=1
+      - AWS_DEFAULT_REGION=us-east-1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/health"]
+      interval: 10s
+      retries: 5
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"

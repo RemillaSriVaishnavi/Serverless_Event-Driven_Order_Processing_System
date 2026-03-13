@@ -1,0 +1,34 @@
+service: order-processing
+
+provider:
+  name: aws
+  runtime: python3.9
+
+functions:
+
+  orderCreator:
+    handler: src/order_creator_lambda/handler.lambda_handler
+    events:
+      - http:
+          path: orders
+          method: post
+
+  orderProcessor:
+    handler: src/order_processor_lambda/handler.lambda_handler
+    events:
+      - sqs: OrderProcessingQueue
+
+  notificationService:
+    handler: src/notification_service_lambda/handler.lambda_handler
+    events:
+      - sns: OrderStatusNotifications
+
+resources:
+
+  Resources:
+
+    OrderProcessingQueue:
+      Type: AWS::SQS::Queue
+
+    OrderStatusNotifications:
+      Type: AWS::SNS::Topic
