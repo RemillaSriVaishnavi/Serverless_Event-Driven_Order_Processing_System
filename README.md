@@ -19,7 +19,7 @@ The architecture uses the following components:
 * Docker Compose (local environment orchestration)
 
 
-# Architecture
+## Architecture
 
 The system follows an **event-driven architecture**.
 
@@ -60,42 +60,42 @@ NotificationService Lambda
 6. **NotificationService Lambda** receives SNS event and logs the notification.
 
 
-# Project Structure
+## Project Structure
 
 ```
 serverless-order-processing-system
-
-src/
-  order_creator_lambda/
-    handler.py
-    requirements.txt
-    Dockerfile
-
-  order_processor_lambda/
-    handler.py
-    requirements.txt
-    Dockerfile
-
-  notification_service_lambda/
-    handler.py
-    requirements.txt
-    Dockerfile
-
-database/
-  init.sql
-
-tests/
-  test_order_creator.py
-  test_integration.py
-
-infrastructure/
-  serverless.yml
-
-docker-compose.yml
-.env.example
-README.md
+│
+├── src
+│   │
+│   ├── order_creator_lambda
+│   │   ├── handler.py
+│   │   ├── requirements.txt
+│   │   └── Dockerfile
+│   │
+│   ├── order_processor_lambda
+│   │   ├── handler.py
+│   │   ├── requirements.txt
+│   │   └── Dockerfile
+│   │
+│   └── notification_service_lambda
+│       ├── handler.py
+│       ├── requirements.txt
+│       └── Dockerfile
+│
+├── database
+│   └── init.sql
+│
+├── tests
+│   ├── test_order_creator.py
+│   └── test_integration.py
+│
+├── infrastructure
+│   └── serverless.yml
+│
+├── docker-compose.yml
+├── .env.example
+└── README.md
 ```
-
 
 ## Local Setup
 
